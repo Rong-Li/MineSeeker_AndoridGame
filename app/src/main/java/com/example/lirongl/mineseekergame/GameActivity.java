@@ -6,6 +6,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -55,18 +57,21 @@ public class GameActivity extends AppCompatActivity {
         }//end of for loop
     }//end of the populateButtons function
 
+    //@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void gridButtonClicked(int temp_row, int temp_col) {
         Button button = buttons[temp_row][temp_col];
         //lock size
         lockButtonSizes();
         //set background image
-        button.setBackgroundResource(R.drawable.mine_2);
-//        int newWidth = button.getWidth();
-//        int newHeight = button.getHeight();
-//        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mine_2);
-//        Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
-//        Resources resource = getResources();
-//        button.setBackground(new BitmapDrawable(resource, scaledBitmap));
+        //button.setBackgroundResource(R.drawable.mine_2);
+        int newWidth = button.getWidth();
+        int newHeight = button.getHeight();
+        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mine_2);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
+        Resources resource = getResources();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            button.setBackground(new BitmapDrawable(resource, scaledBitmap));
+        }
     }
 
     private void lockButtonSizes() {

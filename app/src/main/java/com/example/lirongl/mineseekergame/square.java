@@ -5,16 +5,21 @@ package com.example.lirongl.mineseekergame;
 public class square {
     private int x_coordinate;
     private int y_coordinate;
+    private int index;
     private boolean existence;
+    private int scan;
+
 
     //constructors
-    public square() {
+    public square()
+    {
+
     }
-    public square(int x_coordinate, int y_coordinate, boolean existence) {
-        this.x_coordinate = x_coordinate;
-        this.y_coordinate = y_coordinate;
-        this.existence = existence;
-    }
+//    public square(int x_coordinate, int y_coordinate, boolean existence) {
+//        this.x_coordinate = x_coordinate;
+//        this.y_coordinate = y_coordinate;
+//        this.existence = existence;
+//    }
 
     //getters
     public int getX_coordinate() {
@@ -25,9 +30,14 @@ public class square {
         return y_coordinate;
     }
 
+    public int getIndex() {return index;}
+
     public boolean isExistence() {
         return existence;
     }
+
+    public int getScan() {return scan;}
+
 
     //setters
 
@@ -39,7 +49,12 @@ public class square {
         this.y_coordinate = y_coordinate;
     }
 
+    public void setIndex(int index) {this.index = index;}
+
     public void setExistence(boolean existence) {
         this.existence = existence;
     }
+
+    public void setScan(int scan) {this.scan = scan;}
+
 }
