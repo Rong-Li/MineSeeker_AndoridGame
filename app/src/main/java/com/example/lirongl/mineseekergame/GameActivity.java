@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,8 +27,8 @@ public class GameActivity extends AppCompatActivity {
     private static final int Size = NUM_ROWS * NUM_COLS;
     private static final int Num_MINES = 10;
     private int revealed = 0;
+    private int scanned_done = 0;
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];
-
     square board[][] = new square[NUM_ROWS][NUM_COLS];
 
 
@@ -100,6 +101,8 @@ public class GameActivity extends AppCompatActivity {
                         if (board[TEMP_ROW][TEMP_COL].isExistence()) {
                             gridButtonClicked(TEMP_ROW, TEMP_COL);
                             revealed++;
+                            TextView textview = findViewById(R.id.revealedID);
+                            textview.setText("FOUND " + revealed + "of " + Num_MINES);
                             board[TEMP_ROW][TEMP_COL].setExistence(false);
                             for (int i = 0; i < NUM_COLS; i++){
                                 if (board[TEMP_ROW][i].isChecked())
@@ -111,8 +114,13 @@ public class GameActivity extends AppCompatActivity {
                             }
                         }
                         else{
-                            gridButtonClickedMineFree(TEMP_ROW, TEMP_COL);
-                            board[TEMP_ROW][TEMP_COL].setChecked(true);
+                            if (!board[TEMP_ROW][TEMP_COL].isChecked()) {
+                                gridButtonClickedMineFree(TEMP_ROW, TEMP_COL);
+                                scanned_done++;
+                                TextView textview = findViewById(R.id.scanedID);
+                                textview.setText("# of scan used: " + scanned_done);
+                                board[TEMP_ROW][TEMP_COL].setChecked(true);
+                            }
                         }
                     }//end of onClick
                 });//end of setOnClickListener
