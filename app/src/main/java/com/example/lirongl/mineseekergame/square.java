@@ -7,6 +7,7 @@ public class square {
     private int y_coordinate;
     private int index;
     private boolean existence;
+    private boolean checked;
     //private int scan;
 
 
@@ -17,6 +18,7 @@ public class square {
         this.x_coordinate = 123;
         this.index = 0;
         this.existence = true;
+        this.checked = false;
     }
     public square(int x_coordinate, int y_coordinate) {
         this.x_coordinate = x_coordinate;
@@ -38,6 +40,9 @@ public class square {
         return existence;
     }
 
+    public boolean isChecked() {
+        return checked;
+    }
     //public int getScan() {return scan;}
 
 
@@ -55,6 +60,10 @@ public class square {
 
     public void setExistence(boolean existence) {
         this.existence = existence;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     //public void setScan(int scan) {this.scan = scan;}

@@ -101,9 +101,18 @@ public class GameActivity extends AppCompatActivity {
                             gridButtonClicked(TEMP_ROW, TEMP_COL);
                             revealed++;
                             board[TEMP_ROW][TEMP_COL].setExistence(false);
+                            for (int i = 0; i < NUM_COLS; i++){
+                                if (board[TEMP_ROW][i].isChecked())
+                                    gridButtonClickedMineFree(TEMP_ROW, i);
+                            }
+                            for (int j = 0; j < NUM_ROWS; j++){
+                                if (board[j][TEMP_COL].isChecked())
+                                    gridButtonClickedMineFree(j, TEMP_COL);
+                            }
                         }
                         else{
                             gridButtonClickedMineFree(TEMP_ROW, TEMP_COL);
+                            board[TEMP_ROW][TEMP_COL].setChecked(true);
                         }
                     }//end of onClick
                 });//end of setOnClickListener
@@ -131,16 +140,21 @@ public class GameActivity extends AppCompatActivity {
 
     private void gridButtonClickedMineFree(int temp_row, int temp_col) {
         Button button = buttons[temp_row][temp_col];
+        int scan_check = scanCheck(temp_row, temp_col);
+        button.setText("" + scan_check);
+    }
+
+    private int scanCheck(int temp_row, int temp_col) {
         int scan_check = 0;
-        for (int i = 0; i < NUM_COLS; i++){
+        for (int i = 0; i < NUM_COLS; i++){       //check horizontally
             if (board[temp_row][i].isExistence())
                 scan_check++;
         }
-        for (int j = 0; j < NUM_ROWS; j++){
+        for (int j = 0; j < NUM_ROWS; j++){       //check vertically
             if (board[j][temp_col].isExistence())
                 scan_check++;
         }
-        button.setText("" + scan_check);
+        return scan_check;
     }
 
     private void lockButtonSizes() {
