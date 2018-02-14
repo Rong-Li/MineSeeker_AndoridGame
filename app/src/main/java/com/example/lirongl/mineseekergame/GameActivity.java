@@ -22,10 +22,10 @@ import java.util.Collections;
 
 public class GameActivity extends AppCompatActivity {
 
-    private static final int NUM_ROWS = 5;
-    private static final int NUM_COLS = 6;
+    private static final int NUM_ROWS = 6;
+    private static final int NUM_COLS = 15;
     private static final int Size = NUM_ROWS * NUM_COLS;
-    private static final int Num_MINES = 10;
+    private static final int Num_MINES = 20;
     private int revealed = 0;
     private int scanned_done = 0;
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];
@@ -95,6 +95,7 @@ public class GameActivity extends AppCompatActivity {
                 final int TEMP_COL = j;
                 Button button = new Button(this);
                 button.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1.0f));
+                button.setPadding(0,0,0,0);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
