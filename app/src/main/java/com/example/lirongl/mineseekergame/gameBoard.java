@@ -27,6 +27,7 @@ public class gameBoard {
             }//end of for loop
         }//end of for loop
 
+        /*
         //SECOND ROUND: Set the square.existence randomly.
         Integer[] shuffle_List = new Integer[this.rows * this.cols];//make a array of integers of length of total index
         for (int i = 0; i < shuffle_List.length; i++) {shuffle_List[i] = i;}
@@ -42,16 +43,16 @@ public class gameBoard {
             }//end of for loop
         }//end of for loop
 
-
+        */
 
 
 
 
     }
 
-    public square[][] getBoard() {
-        return board;
-    }
+//    public square[][] getBoard() {
+//        return board;
+//    }
 
     public int getRows() {return rows;}
 

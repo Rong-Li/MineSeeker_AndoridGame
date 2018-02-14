@@ -7,19 +7,21 @@ public class square {
     private int y_coordinate;
     private int index;
     private boolean existence;
-    private int scan;
+    //private int scan;
 
 
     //constructors
     public square()
     {
-
+        this.y_coordinate = 123;
+        this.x_coordinate = 123;
+        this.index = 0;
+        this.existence = true;
     }
-//    public square(int x_coordinate, int y_coordinate, boolean existence) {
-//        this.x_coordinate = x_coordinate;
-//        this.y_coordinate = y_coordinate;
-//        this.existence = existence;
-//    }
+    public square(int x_coordinate, int y_coordinate) {
+        this.x_coordinate = x_coordinate;
+        this.y_coordinate = y_coordinate;
+    }
 
     //getters
     public int getX_coordinate() {
@@ -36,7 +38,7 @@ public class square {
         return existence;
     }
 
-    public int getScan() {return scan;}
+    //public int getScan() {return scan;}
 
 
     //setters
@@ -55,6 +57,6 @@ public class square {
         this.existence = existence;
     }
 
-    public void setScan(int scan) {this.scan = scan;}
+    //public void setScan(int scan) {this.scan = scan;}
 
 }

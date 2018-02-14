@@ -10,24 +10,73 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 public class GameActivity extends AppCompatActivity {
 
     private static final int NUM_ROWS = 5;
     private static final int NUM_COLS = 6;
+    private static final int Size = NUM_ROWS * NUM_COLS;
+    private static final int Num_MINES = 10;
+    private int revealed = 0;
     Button buttons[][] = new Button[NUM_ROWS][NUM_COLS];
+
+    square board[][] = new square[NUM_ROWS][NUM_COLS];
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        generateNewBoard();
+        //printBoard();
         populateButtons();
     }//end of onCreate
+
+    public void printBoard() {
+        for (int i = 0; i < NUM_ROWS; i++) {
+            for (int j = 0; j < NUM_COLS; j++) {
+                square a = board[i][j];
+                String theMessage = " " + a.getIndex();
+                Log.i("MyApp", theMessage);
+            }//end of for loop
+        }//end of for loop
+    }
+
+    private void generateNewBoard() {
+        int temp = 0;
+        //FIRST ROUND: Set the frame and set the index to each square.
+        for (int i = 0; i < NUM_ROWS; i++) {
+            for (int j = 0; j < NUM_COLS; j++) {
+                board[i][j] = new square(i, j);
+                board[i][j].setIndex(temp);
+                temp++;
+            }//end of for loop
+        }//end of for loop
+
+        //SECOND ROUND: Set the square.existence randomly.
+        Integer[] shuffle_List = new Integer[Size];//make a array of integers of length of total index
+        for (int i = 0; i < shuffle_List.length; i++) {shuffle_List[i] = i;}
+        Collections.shuffle(Arrays.asList(shuffle_List));//Using shuffle to prevent repeated generated random number
+
+        for (int i = 0; i < NUM_ROWS; i++) {
+            for (int j = 0; j < NUM_COLS; j++) {
+                for (int k = 0; k < Num_MINES; k++){
+                    if (board[i][j].getIndex() == shuffle_List[k])
+                        board[i][j].setExistence(true);//set Existence to true if this square meets the random number
+                }//end of for loop
+            }//end of for loop
+        }//end of for loop
+    }//End of generateNewBoard()
 
 
 
@@ -48,16 +97,22 @@ public class GameActivity extends AppCompatActivity {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        gridButtonClicked(TEMP_ROW, TEMP_COL);
-                    }
-                });
+                        if (board[TEMP_ROW][TEMP_COL].isExistence()) {
+                            gridButtonClicked(TEMP_ROW, TEMP_COL);
+                            revealed++;
+                            board[TEMP_ROW][TEMP_COL].setExistence(false);
+                        }
+                        else{
+                            gridButtonClickedMineFree(TEMP_ROW, TEMP_COL);
+                        }
+                    }//end of onClick
+                });//end of setOnClickListener
                 tableRow.addView(button);
                 buttons[TEMP_ROW][TEMP_COL] = button;
             }//end of for loop
         }//end of for loop
     }//end of the populateButtons function
 
-    //@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void gridButtonClicked(int temp_row, int temp_col) {
         Button button = buttons[temp_row][temp_col];
         //lock size
@@ -72,6 +127,20 @@ public class GameActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             button.setBackground(new BitmapDrawable(resource, scaledBitmap));
         }
+    }
+
+    private void gridButtonClickedMineFree(int temp_row, int temp_col) {
+        Button button = buttons[temp_row][temp_col];
+        int scan_check = 0;
+        for (int i = 0; i < NUM_COLS; i++){
+            if (board[temp_row][i].isExistence())
+                scan_check++;
+        }
+        for (int j = 0; j < NUM_ROWS; j++){
+            if (board[j][temp_col].isExistence())
+                scan_check++;
+        }
+        button.setText("" + scan_check);
     }
 
     private void lockButtonSizes() {
@@ -89,6 +158,7 @@ public class GameActivity extends AppCompatActivity {
             }
         }
     }
+
     public static Intent newIntent(Context context){
         return new Intent(context, GameActivity.class);
     }
